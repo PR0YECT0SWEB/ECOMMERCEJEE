@@ -4,6 +4,9 @@
     Author     : Christian Camilo Gámez
 --%>
 
+<%@page import="JavaBeans.Categoria"%>
+<%@page import="cad.CategoriaCad"%>
+<%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="es">
@@ -221,27 +224,46 @@
 					<div class="left-sidebar">
 						<h2>Categorías</h2>
 						<div class="panel-group category-products" id="accordian"><!--category-productsr-->
+                                                    <%! 
+                                                        ArrayList<Categoria> lista=CategoriaCad.listar(); 
+                                                        int codigo = 0;
+                                                        String nombre = "";
+                                                    %>
+                                                    <% 
+                                                        for(int i = 0; lista.size() > i; i++){
+                                                            codigo = lista.get(i).getCodigo();
+                                                    %>            
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h4 class="panel-title">
-										<a data-toggle="collapse" data-parent="#accordian" href="#sportswear">
+										<a data-toggle="collapse" data-parent="#accordian" href="#<%= codigo %>">
 											<span class="badge pull-right"><i class="fa fa-plus"></i></span>
-											Ropa deportiva
+                                                                                        <%= lista.get(i).getNombre() %>
 										</a>
 									</h4>
 								</div>
-								<div id="sportswear" class="panel-collapse collapse">
+								<div id="<%= codigo %>" class="panel-collapse collapse">
 									<div class="panel-body">
-										<ul>
-											<li><a href="#">Nike </a></li>
-											<li><a href="#">Under Armour </a></li>
-											<li><a href="#">Adidas </a></li>
-											<li><a href="#">Puma</a></li>
-											<li><a href="#">ASICS </a></li>
+                                                                                <ul>
+                                                                                    <% ArrayList<Categoria> listaSub = CategoriaCad.listarSubCategorias(codigo); %>
+                                                                                    <% 
+                                                                                        for(int isub = 0; listaSub.size() > isub; isub++){
+                                                                                            codigo = listaSub.get(isub).getCodigo();
+                                                                                            nombre = listaSub.get(isub).getNombre();
+                                                                                    %> 
+											<li><a href="#"><%= nombre  %></a></li>
+                                                                                    <%  
+                                                                                        }
+                                                                                    %>
+                                                                                        
 										</ul>
 									</div>
 								</div>
 							</div>
+                                                    
+                                                    <%  
+                                                        }
+                                                    %>
 					
 						</div><!--/category-products-->
 					

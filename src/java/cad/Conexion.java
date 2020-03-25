@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author D3RL3
  */
 public class Conexion {
-    public static Connection conetar() {
+    public static Connection conectar() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/ecommerce_db", "root", "");
