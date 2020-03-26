@@ -1,1 +1,1 @@
-<% response.sendRedirect("Inicio"); %>
+<% response.sendRedirect("admin"); %>
