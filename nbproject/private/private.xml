@@ -4,8 +4,8 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/web/WEB-INF/index.jsp</file>
-            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/cad/Conexion.java</file>
-            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/cad/CategoriaCad.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/view/Inicio.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/web/WEB-INF/header.jsp</file>
         </group>
     </open-files>
 </project-private>
