@@ -5,6 +5,9 @@
  */
 package control;
 
+import JavaBeans.Producto;
+import JavaBeans.ProductoMoneda;
+import cad.ProductoCad;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -82,37 +85,100 @@ public class ControlProducto extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String url = subirImagen(request);
-        String nombre = request.getParameter("nombre");
-        float precio = Float.parseFloat(request.getParameter("precio"));
-        float precioNuevo = Float.parseFloat(request.getParameter("precionuevo"));
         
-        float precioCop = Float.parseFloat(request.getParameter("preciocop"));
-        float precioNuevoCop = Float.parseFloat(request.getParameter("precionuevocop"));
+        recibirDatos(request);
+        String url = request.getAttribute("imagen").toString();
+        String nombre = request.getAttribute("nombre").toString();
+        float precio = Float.parseFloat(request.getAttribute("precio").toString());
+        float precioNuevo = Float.parseFloat(request.getAttribute("precionuevo").toString());
         
-        float precioUsd = Float.parseFloat(request.getParameter("preciousd"));
-        float precioNuevoUsd = Float.parseFloat(request.getParameter("precionuevousd"));
+        float precioCop = Float.parseFloat(request.getAttribute("preciocop").toString());
+        float precioNuevoCop = Float.parseFloat(request.getAttribute("precionuevocop").toString());
         
-        float precioPen = Float.parseFloat(request.getParameter("preciousd"));
-        float precioNuevoPen = Float.parseFloat(request.getParameter("precionuevousd"));
+        float precioUsd = Float.parseFloat(request.getAttribute("preciousd").toString());
+        float precioNuevoUsd = Float.parseFloat(request.getAttribute("precionuevousd").toString());
         
-        int cantidad = Integer.parseInt(request.getParameter("cantidad"));
+        float precioPen = Float.parseFloat(request.getAttribute("preciousd").toString());
+        float precioNuevoPen = Float.parseFloat(request.getAttribute("precionuevousd").toString());
         
-        int marca = Integer.parseInt(request.getParameter("marca"));
-        int categoria = Integer.parseInt(request.getParameter("categoria"));
+        int cantidad = Integer.parseInt(request.getAttribute("cantidad").toString());
         
-        String descripcion = request.getParameter("descripcion");
+        int marca = Integer.parseInt(request.getAttribute("marca").toString());
+        int categoria = Integer.parseInt(request.getAttribute("categoria").toString());
         
-        boolean esNuevo = (request.getParameter("nuevo").equalsIgnoreCase("on"))?true:false;
-        boolean recomendado = request.getParameter("recomendado").equalsIgnoreCase("on");
-        boolean visible = request.getParameter("visible").equalsIgnoreCase("on");
+        String descripcion = request.getAttribute("descripcion").toString();
+        
+        boolean esNuevo, recomendado, visible;
+        
+        try {
+            esNuevo = (request.getAttribute("nuevo").toString().equalsIgnoreCase("ON"))?true:false;// Esta es otra forma de hacer la condicion    
+        } catch (Exception e) {
+            esNuevo=false;
+        }
+        
+        try {
+            recomendado = request.getAttribute("recomendado").toString().equalsIgnoreCase("ON");
+        } catch (Exception e) {
+            recomendado=false;
+        }
+        
+        try {
+            visible = request.getAttribute("visible").toString().equalsIgnoreCase("ON");
+        } catch (Exception e) {
+            visible=false;
+        }       
+        
+        String accion = request.getAttribute("accion").toString();
+        
+        Producto p = new Producto();
+        p.setNombre(nombre);
+        p.setPrecio(precio);
+        p.setPrecioNuevo(precioNuevo);
+        p.setCategoria(categoria);
+        p.setMarca(marca);
+        p.setDescripcion(descripcion);
+        p.setImg(url);
+        p.setNuevo(esNuevo);
+        p.setRecomendado(recomendado);
+        p.setStock(cantidad);
+        p.setVisible(visible);
+        
+        ProductoMoneda cop = new ProductoMoneda();
+        cop.setMoneda("COP");
+        cop.setPrecio(precioCop);
+        cop.setNuevoPrecio(precioNuevoCop);
+        
+        ProductoMoneda usd = new ProductoMoneda();
+        usd.setMoneda("USD");
+        usd.setPrecio(precioUsd);
+        usd.setNuevoPrecio(precioNuevoUsd);
+        
+        ProductoMoneda pen = new ProductoMoneda();
+        pen.setMoneda("PEN");
+        pen.setPrecio(precioPen);
+        pen.setNuevoPrecio(precioNuevoPen);
+        
+        String mensajeExistoso = "SE REGISTRO EXITOSAMENTE";
+        String mensajeNoExistoso = "NO SE REGISTRO EXITOSAMENTE";
+        String mensajeDesconocido = "ACCION DESCONOCIDA";
+                
+        if(accion.equalsIgnoreCase("registrar")){
+            if(ProductoCad.registrarProducto(p, cop, usd, pen)){
+                request.setAttribute("mensaje", "<p style='color:green'>" + mensajeExistoso + "</p>");
+            }else{
+                request.setAttribute("mensaje", "<p style='color:green'>" + mensajeNoExistoso + "</p>");
+            }
+        }else{
+            request.setAttribute("mensaje", "<p style='color:green'>" + mensajeDesconocido + "</p>");
+        }
+        request.getRequestDispatcher("admin").forward(request, response);
         
         
 //        ****redirecciona hacia la direccion donde se encuentra la imagen*****
 //                      response.sendRedirect("foto/" + url);
     }
     
-    private String subirImagen(HttpServletRequest request){
+    private void recibirDatos(HttpServletRequest request){
         try {
             FileItemFactory fileFactory = new DiskFileItemFactory();
             ServletFileUpload servletUpload = new ServletFileUpload(fileFactory);
@@ -133,17 +199,17 @@ public class ControlProducto extends HttpServlet {
                     File imagen = new File(nuevoNombre);
                     if (item.getContentType().contains("image")){
                         item.write(imagen);
-                        request.setAttribute("subida", true);
-                        return nombre;
+                        request.setAttribute(item.getFieldName(), nombre);
                     }                    
-                }                        
+                }else{
+                    request.setAttribute(item.getFieldName(), item.getString());
+                }                       
             }
         } catch (FileUploadException ex) {
             request.setAttribute("subida", false);
         } catch (Exception ex) {
             request.setAttribute("subida", false);
         }
-        return "";
     }
 
     /**

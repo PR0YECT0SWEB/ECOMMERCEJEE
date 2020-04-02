@@ -78,8 +78,8 @@
                                             
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
-								<li><a href="#" class="active">Inicio</a></li>
-                                                                <li><a href="#">Todos los Productos</a></li>
+								<li><a href="Inicio" class="active">Inicio</a></li>
+                                                                <li><a href="admin">Todos los Productos</a></li>
                                                                 <li><a href="#">Ropa para Niños</a></li> 
                                                                 <li><a href="#">Blog</a></li>
                                                                 <li class="dropdown"><a href="#">Mi Compra<i class="fa fa-angle-down"></i></a>

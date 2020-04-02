@@ -4,6 +4,8 @@
     Author     : Christian Camilo Gámez
 --%>
 
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="cad.ProductoCad"%>
 <%@page import="JavaBeans.Categoria"%>
 <%@page import="cad.CategoriaCad"%>
 <%@page import="java.util.ArrayList"%>
@@ -35,160 +37,48 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Productos destacados</h2>
+                                                <c:forEach var="p" items='<%= ProductoCad.listarProductosRecomendados(session.getAttribute("moneda").toString()) %>'>
 						<div class="col-sm-4">
 							<div class="product-image-wrapper">
 								<div class="single-products">
 										<div class="productinfo text-center">
-											<img src="images/home/product1.jpg" alt="" />
-											<h2>$56</h2>
-											<p>Blusa Polo color negro</p>
-											<span class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</span>
+											<img src="foto/${p.img}" alt="" />
+                                                                                        <h2<c:if test="${p.stock==0}"> class="gris" </c:if>>${sessionScope.moneda} ${p.precio}</h2>
+											<p>${p.nombre}</p>
+											<span class="btn btn-default add-to-cart <c:if test="${p.stock==0}"> disabled </c:if>"><i class="fa fa-shopping-cart"></i>Agregar al carrito</span>
 										</div>
-										<div class="product-overlay">
+										<div class="product-overlay <c:if test="${p.stock==0}"> grisfondo </c:if>">
 											<div class="overlay-content">
-												<h2>$56</h2>
-												<p>Blusa Polo color negro</p>
-												<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
+                                                                                            <h2>${sessionScope.moneda} ${p.precio}</h2>
+												<p>${p.nombre}</p>
+												<a href="#" class="btn btn-default add-to-cart <c:if test="${p.stock==0}"> disabled </c:if>"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
 											</div>
 										</div>
+                                                                                                <c:if test="${p.nuevo}">
+                                                                                                    <img src="images/home/new.png" class="new" alt="producto nuevo"/>
+                                                                                                </c:if>
 								</div>
 								<div class="choose">
 									<ul class="nav nav-pills nav-justified">
 										<li><a href=""><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
-										<li><a href="#"><i class="fa fa-check-circle"></i>Disponible</a></li>
+                                                                                <li><a href="#" <c:if test="${p.stock==0}"> class="gris" </c:if>>
+                                                                                        
+                                                                                    <c:choose>
+                                                                                        <c:when test="${p.stock > 0}">
+                                                                                            <i class="fa fa-check-circle"></i>(<c:out value="${p.stock}"/>)Disponible
+                                                                                        </c:when>
+                                                                                        <c:otherwise>
+                                                                                            <i class="fa fa-lock"></i>(<c:out value="${p.stock}"/>)Agotado
+                                                                                        </c:otherwise>
+                                                                                    </c:choose>                                                                             
+                                                                                        
+                                                                                    
+                                                                                    </a></li>
 									</ul>
 								</div>
 							</div>
 						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product2.jpg" alt="" />
-										<h2 class="gris">$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<span  class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i>Artículo Agotado</span>
-									</div>
-									<div class="product-overlay grisfondo">
-										<div class="overlay-content">
-											<h2>$56</h2>
-											<p>Easy Polo Black Edition</p>
-                                                                                        <a href=""  class="btn btn-default add-to-cart disabled"><i class="fa fa-shopping-cart"></i>Artículo Agotado</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href="" class="nodisponible"><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
-										<li><a href="" class="nodisponible"><i class="fa fa-lock"></i>Agotado</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product3.jpg" alt="" />
-                                                                                <h2>$56 <strike class="gris">$70</strike></h2>
-										<p>Easy Polo Black Edition</p>
-										<span class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</span>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$56 <strike>$70</strike></h2>
-											<p>Easy Polo Black Edition</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
-										</div>
-									</div>
-                                                                    <img src="images/home/sale.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
-										<li><a href="#"><i class="fa fa-check-circle"></i>Disponible</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product4.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<span class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</span>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$56</h2>
-											<p>Easy Polo Black Edition</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
-										</div>
-									</div>
-									<img src="images/home/new.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
-										<li><a href="#"><i class="fa fa-check-circle"></i>Disponible</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product5.jpg" alt="" />
-										<h2>$56 <strike class="gris">$70</strike></h2>
-										<p>Easy Polo Black Edition</p>
-										<span class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</span>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$56 <strike>$70</strike></h2>
-											<p>Easy Polo Black Edition</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
-										</div>
-									</div>
-									<img src="images/home/sale.png" class="new" alt="" />
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
-										<li><a href="#"><i class="fa fa-check-circle"></i>Disponible</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div class="product-image-wrapper">
-								<div class="single-products">
-									<div class="productinfo text-center">
-										<img src="images/home/product6.jpg" alt="" />
-										<h2>$56</h2>
-										<p>Easy Polo Black Edition</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
-									</div>
-									<div class="product-overlay">
-										<div class="overlay-content">
-											<h2>$56</h2>
-											<p>Easy Polo Black Edition</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
-										</div>
-									</div>
-								</div>
-								<div class="choose">
-									<ul class="nav nav-pills nav-justified">
-										<li><a href=""><i class="fa fa-star"></i><i class="fa fa-star"></i></a></li>
-										<li><a href="#"><i class="fa fa-check-circle"></i>Disponible</a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						
+                                                </c:forEach>
 					</div><!--features_items-->
 					
 					<div class="category-tab"><!--category-tab-->
