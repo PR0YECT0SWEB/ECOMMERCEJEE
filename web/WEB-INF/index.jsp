@@ -4,6 +4,7 @@
     Author     : Christian Camilo Gámez
 --%>
 
+<%@page import="JavaBeans.Producto"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="cad.ProductoCad"%>
 <%@page import="JavaBeans.Categoria"%>
@@ -37,7 +38,15 @@
 				<div class="col-sm-9 padding-right">
 					<div class="features_items"><!--features_items-->
 						<h2 class="title text-center">Productos destacados</h2>
-                                                <c:forEach var="p" items='<%= ProductoCad.listarProductosRecomendados(session.getAttribute("moneda").toString()) %>'>
+                                                <%! ArrayList<Producto> datos;%>
+                                                <% if(Integer.parseInt(session.getAttribute("category").toString())>0){
+                                                    datos = ProductoCad.listarProductosPorCategoria(session.getAttribute("moneda").toString(),Integer.parseInt(session.getAttribute("category").toString()));
+                                                }else if(Integer.parseInt(session.getAttribute("brand").toString())>0){
+                                                    datos = ProductoCad.listarProductosPorMarca(session.getAttribute("moneda").toString(),Integer.parseInt(session.getAttribute("brand").toString()));
+                                                }else{
+                                                    datos = ProductoCad.listarProductosRecomendados(session.getAttribute("moneda").toString());
+                                                } %>
+                                                <c:forEach var="p" items='<%= datos %>'>
 						<div class="col-sm-4">
 							<div class="product-image-wrapper">
 								<div class="single-products">
@@ -51,7 +60,7 @@
 											<div class="overlay-content">
                                                                                             <h2>${sessionScope.moneda} ${p.precio}</h2>
 												<p>${p.nombre}</p>
-												<a href="#" class="btn btn-default add-to-cart <c:if test="${p.stock==0}"> disabled </c:if>"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
+												<a href="Cart?id=${p.webId}&action=order" class="btn btn-default add-to-cart <c:if test="${p.stock==0}"> disabled </c:if>"><i class="fa fa-shopping-cart"></i>Agregar al carrito</a>
 											</div>
 										</div>
                                                                                                 <c:if test="${p.nuevo}">

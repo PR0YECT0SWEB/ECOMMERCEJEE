@@ -53,12 +53,76 @@ public class ProductoCad {
             return false;
         }
     }
-     public static  ArrayList<Producto> listarProductosRecomendados(String moneda){
+   public static  ArrayList<Producto> listarProductosRecomendados(String moneda){
         try {
             String sql="{CALL SP_LISTARRECOMENDADOS(?)}";
             Connection c = Conexion.conectar();
             CallableStatement sentencia = (CallableStatement) c.prepareCall(sql);
             sentencia.setString(1, moneda);
+                       
+            ResultSet res = sentencia.executeQuery();
+            ArrayList<Producto> lista = new ArrayList<>();
+            while(res.next()){
+                Producto p = new Producto();
+                p.setWebId(res.getInt("webid"));
+                p.setNombre(res.getString("nombre"));
+                p.setImg(res.getString("img"));
+                p.setStock(res.getInt("stock"));
+                p.setNuevo(res.getBoolean("nuevo"));                
+                if (!moneda.equalsIgnoreCase("MXN")){
+                    p.setPrecio(res.getFloat("PRECIO2"));
+                    p.setPrecioNuevo(res.getFloat("PRECIONUEVO2"));
+                }else{
+                    p.setPrecio(res.getFloat("precio"));
+                    p.setPrecioNuevo(res.getFloat("precionuevo"));
+                }
+                lista.add(p);
+            }
+            return lista;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+     
+      public static  ArrayList<Producto> listarProductosPorCategoria(String moneda, int categoria){
+        try {
+            String sql="{CALL SP_LISTARPORCATEGORIA(?,?)}";
+            Connection c = Conexion.conectar();
+            CallableStatement sentencia = (CallableStatement) c.prepareCall(sql);
+            sentencia.setString(1, moneda);
+            sentencia.setInt(2, categoria);
+                       
+            ResultSet res = sentencia.executeQuery();
+            ArrayList<Producto> lista = new ArrayList<>();
+            while(res.next()){
+                Producto p = new Producto();
+                p.setWebId(res.getInt("webid"));
+                p.setNombre(res.getString("nombre"));
+                p.setImg(res.getString("img"));
+                p.setStock(res.getInt("stock"));
+                p.setNuevo(res.getBoolean("nuevo"));                
+                if (!moneda.equalsIgnoreCase("MXN")){
+                    p.setPrecio(res.getFloat("PRECIO2"));
+                    p.setPrecioNuevo(res.getFloat("PRECIONUEVO2"));
+                }else{
+                    p.setPrecio(res.getFloat("precio"));
+                    p.setPrecioNuevo(res.getFloat("precionuevo"));
+                }
+                lista.add(p);
+            }
+            return lista;
+        } catch (SQLException ex) {
+            return null;
+        }
+    }
+      
+      public static  ArrayList<Producto> listarProductosPorMarca(String moneda, int marca){
+        try {
+            String sql="{CALL SP_LISTARPORMARCA(?,?)}";
+            Connection c = Conexion.conectar();
+            CallableStatement sentencia = (CallableStatement) c.prepareCall(sql);
+            sentencia.setString(1, moneda);
+            sentencia.setInt(2, marca);
                        
             ResultSet res = sentencia.executeQuery();
             ArrayList<Producto> lista = new ArrayList<>();

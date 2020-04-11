@@ -4,6 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/web/WEB-INF/index.jsp</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/JavaBeans/Producto.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/web/WEB-INF/cart.jsp</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/view/Admin.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/web/WEB-INF/web.xml</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/cad/MarcaCad.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/view/Cart.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/view/Inicio.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/web/WEB-INF/header.jsp</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/cad/ProductoCad.java</file>
+            <file>file:/C:/Users/D3RL3/Documents/NetBeansProjects/EcommerceJEE/src/java/JavaBeans/Categoria.java</file>
         </group>
     </open-files>
 </project-private>
