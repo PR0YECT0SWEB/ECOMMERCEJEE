@@ -166,7 +166,7 @@ public class ControlProducto extends HttpServlet {
             if(ProductoCad.registrarProducto(p, cop, usd, pen)){
                 request.setAttribute("mensaje", "<p style='color:green'>" + mensajeExistoso + "</p>");
             }else{
-                request.setAttribute("mensaje", "<p style='color:green'>" + mensajeNoExistoso + "</p>");
+                request.setAttribute("mensaje", "<p style='color:red'>" + mensajeNoExistoso + "</p>");
             }
         }else{
             request.setAttribute("mensaje", "<p style='color:green'>" + mensajeDesconocido + "</p>");
